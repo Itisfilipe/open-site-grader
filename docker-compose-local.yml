@@ -1,0 +1,13 @@
+version: '3'
+services:
+  lighthouse:
+    build:
+      context: ./lighthouse
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - ./lighthouse:/lighthouse
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    command: /lighthouse/start
