@@ -2,12 +2,13 @@ version: '3'
 services:
   lighthouse:
     build:
-      context: ./lighthouse
+      context: .
     cap_add:
       - SYS_ADMIN
     volumes:
-      - ./lighthouse:/lighthouse
+      - ./src:/src
+      - ./reports:/home/chrome/reports
     ports:
       - "5000:5000"
     restart: unless-stopped
-    command: /lighthouse/start
+    command: /start

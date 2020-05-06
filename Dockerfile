@@ -2,13 +2,15 @@ FROM python:3.7-slim-buster
 
 ENV PYTHONUNBUFFERED 1
 
-COPY . /lighthouse
+COPY src /src
+COPY requirements.txt /
+COPY start /
 
-WORKDIR /lighthouse
+WORKDIR /src
 
-RUN chmod +x /lighthouse/start
+RUN chmod +x /start
 
-RUN pip install -r /lighthouse/requirements.txt
+RUN pip install -r /requirements.txt
 
 # Install utilities
 RUN apt-get update --fix-missing && apt-get -y upgrade
@@ -38,11 +40,11 @@ ENV CI=true
 
 ## Add a chrome user so we can execute chrome properly.
 RUN groupadd --system chrome && \
-    useradd --system --create-home --gid chrome --groups audio,video chrome
-##    mkdir --parents /home/chrome/reports && \
-##    chown --recursive chrome:chrome /home/chrome
-USER chrome
+    useradd --system --create-home --gid chrome --groups audio,video chrome && \
+    mkdir --parents /home/chrome/reports && \
+    chown --recursive chrome:chrome /home/chrome
 
+USER chrome
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
